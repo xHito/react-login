@@ -24,19 +24,19 @@ function RegisterForm({ Register, error }) {
                 {(error !== "") ? ( <div className="error">{error}</div>) : ""}
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
-                    <input type="text" name="username" id="name" onChange={e => setDetails({...details, username: e.target.value})} value={details.username}/>
+                    <input type="text" name="username" id="name" onChange={e => setDetails({...details, username: e.target.value})} value={details.username} pattern=".{8,}" required title="8 character minimum"/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
-                    <input type="email" name="email" id="email" onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
+                    <input type="email" name="email" id="email" onChange={e => setDetails({...details, email: e.target.value})} value={details.email} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password:</label>
-                    <input type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
+                    <input type="password" name="password" id="password" onChange={e => setDetails({...details, password: e.target.value})} value={details.password} pattern=".{8,}" required title="8 character minimum"/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" name="password_confirm" id="password_confirm" onChange={e => setDetails({...details, passwordConfirm: e.target.value})} value={details.passwordConfirm}/>
+                    <label htmlFor="password">Confirm Password:</label>
+                    <input type="password" name="password_confirm" id="password_confirm" onChange={e => setDetails({...details, passwordConfirm: e.target.value})} value={details.passwordConfirm} pattern=".{8,}" required title="8 character minimum"/>
                 </div>
                 <input type="submit" value="SUBMIT" />
             </div>
