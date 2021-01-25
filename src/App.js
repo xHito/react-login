@@ -15,7 +15,6 @@ function App() {
 
   const [user, setUser] = useState({username: "", email: ""});
   const [error, setError] = useState("");
-  const [page, setPage] = useState({oldPage: "", newPage: ""});
 
   const Login = details => {
     if(details.email === adminUser.email && details.password === adminUser.password) {
@@ -39,11 +38,7 @@ function App() {
       setUser({
         username: details.username
       });
-      setPage({
-
-      })
     }
-
   }
 
   const Logout = () => {
@@ -52,8 +47,6 @@ function App() {
     });
   }
 
-  const PageHandler = e => {
-  }
 
   return (
     <div className="App">
