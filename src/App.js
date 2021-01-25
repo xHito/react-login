@@ -5,17 +5,21 @@ import RegisterForm from './components/RegisterForm';
 
 function App() {
   const adminUser = {
-    email: "",
-    password: ""
+    email: "admin@admin.com",
+    password: "admin123"
   }
 
-  const [user, setUser] = useState({name: "", email: ""});
+  const testUser = {
+    email: "test@test.com"
+  }
+
+  const [user, setUser] = useState({username: "", email: ""});
   const [error, setError] = useState("");
 
   const Login = details => {
     if(details.email === adminUser.email && details.password === adminUser.password) {
       setUser({
-        name: details.name,
+        username: details.username,
         email: details.email
       });
       console.log("Logged in successfully!")
@@ -24,22 +28,36 @@ function App() {
     }
   }
 
+  const Register = details => {
+    if(details.email === testUser.email || details.email === adminUser.email) {
+      setError("Registration failed, account already exists!")
+      console.log("Register Failed, Account already exists!")
+    }else if(details.password !== details.passwordConfirm) {
+      setError("Registration failed, passwords do not match!")
+    }else{
+      setUser({
+        username: details.username
+      });
+    }
+  }
+
   const Logout = () => {
     setUser({
-      name: "",
-      email: ""
+      username: "",
     });
   }
 
+
   return (
     <div className="App">
-      {(user.email !== "") ? (
+      {(user.username !== "") ? (
         <div className="welcome">
-          <h2>Welcome, <span>{user.name}</span></h2>
+          <h2>Welcome, <span>{user.username}</span></h2>
           <button onClick={Logout}>Logout</button>
         </div>
       ) : (
-        <LoginForm Login={Login} error={error} />
+        /*<LoginForm Login={Login} error={error} /> */
+        <RegisterForm Register={Register} error={error} /> 
       )}
     </div>
   );
