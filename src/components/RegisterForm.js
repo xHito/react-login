@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import welcomeImg from "../welcome.gif";
+import fire from '../fire';
 
 function RegisterForm({ Register, error, hasAccount, setHasAccount }) {
-    const [details, setDetails] = useState({ username: "", email: "", password: "", passwordConfirm: "" });
+    const [details, setDetails] = useState({ email: "", password: "" });
+    const [emailErr, setEmailErr] = useState('');
+    const [passwordErr, setPasswordErr] = useState('');
 
-    const submitHandler = e => {
-        e.preventDefault();
-
-        Register(details);
-    }
+    const handleRegister = e => {
+        fire
+            .auth()
+            .createUserWithEmailAndPassword(details.email, details.password)
+            .catch(err => {
+                // eslint-disable-next-line default-case
+                switch (err.code) {
+                    case "auth/email-already-in-use":
+                    case "auth/invalid-email":
+                        setEmailErr(err.message);
+                        break;
+                    case "auth/weak-password":
+                        setPasswordErr(err.message);
+                        break;
+                }
+            });
+    };
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={handleRegister}>
             <div className="form-inner">
                 <div className="header">Register
                     <div className="content">
@@ -24,7 +39,7 @@ function RegisterForm({ Register, error, hasAccount, setHasAccount }) {
                 {(error !== "") ? (<div className="error">{error}</div>) : ""}
                 <div className="form-group">
                     <label htmlFor="name">Username:</label>
-                    <input type="text" name="username" id="username" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} pattern=".{8,}" required title="8 character minimum" />
+                    <input type="text" name="username" id="username" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} pattern=".{4,}" required title="4 character minimum" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>

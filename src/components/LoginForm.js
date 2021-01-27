@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import welcomeImg from "../welcome.gif";
+import fire from '../fire';
 
 function LoginForm({ Login, error, setHasAccount, hasAccount }) {
     const [details, setDetails] = useState({ email: "", password: "" });
+    const [emailErr, setEmailErr] = useState('');
+    const [passwordErr, setPasswordErr] = useState('');
 
-    const submitHandler = e => {
-        e.preventDefault();
-
-        Login(details);
-    }
+    const handleLogin = () => {
+        fire.auth()
+            .signInWithEmailAndPassword(details.email, details.password)
+            .catch(err => {
+                // eslint-disable-next-line default-case
+                switch (err.code) {
+                    case "auth/invalid-email":
+                    case "auth/user-disabled":
+                    case "auth/user-not-found":
+                        setEmailErr(err.message);
+                        break;
+                    case "auth/wrong-password":
+                        setPasswordErr(err.message);
+                        break;
+                }
+            });
+    };
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={handleLogin}>
             <div className="form-inner">
                 <div className="header">Log In
                     <div className="content">
