@@ -1,67 +1,113 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Login from './components/LoginForm';
 import LoginForm from './components/LoginForm';
+import Register from './components/RegisterForm';
 import RegisterForm from './components/RegisterForm';
+import Hero from './components/Hero';
+import fire from './fire';
 
+const App = () => {
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailErr, setEmailErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
+  const [hasAccount, setHasAccount] = useState(false);
 
-function App() {
-  const adminUser = {
-    email: "admin@admin.com",
-    password: "admin123"
+  const clearInputs = () => {
+    setEmail("");
+    setPassword("");
   }
 
-  const testUser = {
-    email: "test@test.com"
+  const clearErrors = () => {
+    setEmailErr("");
+    setPasswordErr("");
   }
 
-  const [user, setUser] = useState({username: "", email: ""});
-  const [error, setError] = useState("");
-
-  const Login = details => {
-    if(details.email === adminUser.email && details.password === adminUser.password) {
-      setUser({
-        username: details.username,
-        email: details.email
+  const handleLogin = () => {
+    clearErrors();
+    fire
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(err => {
+        switch (err.code) {
+          case "auth/invalid-email":
+          case "auth/user-disabled":
+          case "auth/user-not-found":
+            setEmailErr(err.message);
+            break;
+          case "auth/wrong-password":
+            setPasswordErr(err.message);
+            break;
+        }
       });
-      console.log("Logged in successfully!")
-    }else{
-      setError("Login Failed")
-    }
-  }
+  };
 
-  const Register = details => {
-    if(details.email === testUser.email || details.email === adminUser.email) {
-      setError("Registration failed, account already exists!")
-      console.log("Register Failed, Account already exists!")
-    }else if(details.password !== details.passwordConfirm) {
-      setError("Registration failed, passwords do not match!")
-    }else{
-      setUser({
-        username: details.username
+  const handleRegister = () => {
+    clearErrors();
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(err => {
+        switch (err.code) {
+          case "auth/email-already-in-use":
+          case "auth/invalid-email":
+            setEmailErr(err.message);
+            break;
+          case "auth/weak-password":
+            setPasswordErr(err.message);
+            break;
+        }
       });
-    }
-  }
+  };
 
-  const Logout = () => {
-    setUser({
-      username: "",
+  const handleLogout = () => {
+    fire.auth().signOut();
+  };
+
+  const authListener = () => {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
+        clearInputs();
+        setUser(user);
+      } else {
+        setUser("");
+      }
     });
-  }
+  };
 
+  useEffect(() => {
+    authListener();
+  }, [])
 
   return (
     <div className="App">
-      {(user.username !== "") ? (
-        <div className="welcome">
-          <h2>Welcome, <span>{user.username}</span></h2>
-          <button onClick={Logout}>Logout</button>
-        </div>
-      ) : (
-        /*<LoginForm Login={Login} error={error} /> */
-        <RegisterForm Register={Register} error={error} /> 
-      )}
+      <div className="linkContainer">
+        {hasAccount ? (
+          <>
+            <LoginForm Login={Login} hasAccount={hasAccount}
+              setHasAccount={setHasAccount}
+            />
+            <p>Don't have an account?
+            <span onClick={() => setHasAccount(!hasAccount)}> Register</span>
+            </p>
+          </>
+        ) : (
+            <>
+              <RegisterForm Register={Register} hasAccount={hasAccount}
+                setHasAccount={setHasAccount}
+              />
+              <p>Have an account?
+              <span onClick={() => setHasAccount(!hasAccount)}> Log in</span>
+              </p>
+            </>
+          )}
+      </div>
+      <Hero handleLogout={handleLogout} />
     </div>
   );
-}
+
+};
 
 export default App;
 
