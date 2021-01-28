@@ -34,7 +34,7 @@ form:after {
     right: -5px;
     bottom: -5px;
     z-index: 1;
-    background-image: linear-gradient(to bottom right, #00fff2, #0206f1);
+    background-image: linear-gradient(to bottom right, #cac1fc, #0206f1);
 }
 
 form .form-inner {
@@ -167,4 +167,8 @@ form .form-inner .header .content .container img{
     display: block;
     color: #fe4880;
     text-align: right;
+}
+
+.linkContainer p span:hover{
+    cursor: pointer;
 }
