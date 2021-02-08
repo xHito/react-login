@@ -63,7 +63,17 @@ const App = () => {
 
   useEffect(() => {
     authListener();
-  }, [])
+    // const entryRef = fire.database().ref("Todo")
+    // entryRef.on("value", (snapshot) => {
+    // console.log(snapshot.val());
+    // const entries = snapshot.val();
+    // const entryList = []
+    // for (let id in entries) {
+    //   entryList.push(entries[id]);
+    // }
+    // console.log(entryList);
+    // setEntryList(entryList);
+  });
 
   //working
   // return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import fire from '../fire';
 
-function TodoForm() {
+function EntryForm() {
     const [details, setDetails] = useState({ title: "", data: "" });
 
 
@@ -43,4 +43,4 @@ function TodoForm() {
     )
 }
 
-export default TodoForm;
+export default EntryForm;
