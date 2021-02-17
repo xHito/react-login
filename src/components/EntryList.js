@@ -7,7 +7,7 @@ export default function EntryList() {
     const [entryList, setEntryList] = useState();
 
     useEffect(() => {
-        const entryRef = fire.database().ref("Todo")
+        const entryRef = fire.database().ref("Entry")
         entryRef.on("value", (snapshot) => {
             const entries = snapshot.val();
             const entryList = []
@@ -15,6 +15,7 @@ export default function EntryList() {
                 entryList.push({ id, ...entries[id] });
             }
             setEntryList(entryList);
+            console.log("ENTRYLIST: ", entryList);
         });
     }, []);
     return (

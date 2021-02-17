@@ -116,13 +116,13 @@ button:hover {
     font-size: 15px;  
 }
 
-.hero {
+.heroContent {
   width: 100%;
   min-height: 100vh;
   background:  #ffffff;
 }
 
-.hero nav {
+.heroContent nav {
   background:  rgb(176, 215, 252);
   width: 100%;
   padding: 20px 40px;
@@ -131,12 +131,41 @@ button:hover {
   justify-content: space-between;
 }
 
-.hero nav h2 {
+.heroContent nav h2 {
   color: #fff;
 }
 
-.hero nav button {
-  width: 100%;
+.heroContent nav button {
+  width: 50px;
   padding: 8px 0;
   background: rgb(176, 215, 252);
+}
+
+.entryDiv {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 5px;
+    transition: 0.4s;
+    border-style: 1px 1px 1px 1px;
+}
+
+/* Create three equal columns that floats next to each other */
+.entryContent .column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.entryContent .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
 }

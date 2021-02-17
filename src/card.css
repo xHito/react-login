@@ -1,0 +1,12 @@
+.card-container{
+    width: 300px;
+    overflow: hidden;
+    box-shadow: 0px 0px 15px -5px;
+}
+
+.img-container img{
+    width: 100px;
+    height: 100px;
+    position: relative;
+
+}

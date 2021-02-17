@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import fire from '../fire';
 
-function EntryForm() {
+function EntryForm({ user }) {
     const [details, setDetails] = useState({ title: "", data: "" });
 
 
@@ -12,7 +12,7 @@ function EntryForm() {
     };
 
     const createEntry = () => {
-        const entryRef = fire.database().ref("Todo");
+        const entryRef = fire.database().ref("Entry");
         const entry = {
             details,
             complete: false,

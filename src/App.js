@@ -4,7 +4,7 @@ import Hero from './components/Hero';
 import fire from './fire';
 
 const App = () => {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
@@ -105,7 +105,7 @@ const App = () => {
   return (
     <div className="App">
       {user ? (
-        <Hero handleLogout={handleLogout} />
+        <Hero handleLogout={handleLogout} user={user} />
       ) : (
           <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword} handleLogin={handleLogin} handleRegister={handleRegister} hasAccount={hasAccount} setHasAccount={setHasAccount} emailErr={emailErr} passwordErr={passwordErr}
           />
